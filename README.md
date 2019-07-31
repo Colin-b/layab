@@ -1,13 +1,11 @@
-<h2 align="center">Python Common Server Module</h2>
+<h2 align="center">Layab: Wonderful REST API</h2>
 
 <p align="center">
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-<a href='https://pse.tools.digital.engie.com/drm-all.gem/job/team/view/Python%20modules/job/pycommon_server/job/master/'><img src='https://pse.tools.digital.engie.com/drm-all.gem/buildStatus/icon?job=team/pycommon_server/master'></a>
-<a href='https://pse.tools.digital.engie.com/drm-all.gem/job/team/view/Python%20modules/job/pycommon_server/job/master/cobertura/'><img src='https://pse.tools.digital.engie.com/drm-all.gem/buildStatus/icon?job=team/pycommon_server/master&config=testCoverage'></a>
-<a href='https://pse.tools.digital.engie.com/drm-all.gem/job/team/view/Python%20modules/job/pycommon_server/job/master/lastSuccessfulBuild/testReport/'><img src='https://pse.tools.digital.engie.com/drm-all.gem/buildStatus/icon?job=team/pycommon_server/master&config=testCount'></a>
+<a href='https://pse.tools.digital.engie.com/drm-all.gem/job/team/view/Python%20modules/job/layab/job/master/'><img src='https://pse.tools.digital.engie.com/drm-all.gem/buildStatus/icon?job=team/layab/master'></a>
+<a href='https://pse.tools.digital.engie.com/drm-all.gem/job/team/view/Python%20modules/job/layab/job/master/cobertura/'><img src='https://pse.tools.digital.engie.com/drm-all.gem/buildStatus/icon?job=team/layab/master&config=testCoverage'></a>
+<a href='https://pse.tools.digital.engie.com/drm-all.gem/job/team/view/Python%20modules/job/layab/job/master/lastSuccessfulBuild/testReport/'><img src='https://pse.tools.digital.engie.com/drm-all.gem/buildStatus/icon?job=team/layab/master&config=testCount'></a>
 </p>
-
-This module is deprecated in favour of [layab](https://github.tools.digital.engie.com/GEM-Py/layab).
 
 This package provides the following features:
 
@@ -18,31 +16,27 @@ API configuration and logging configuration can be standardized.
 ### Loading configuration ###
 
 ```python
-import pycommon_server
+import layab
 
 # Load logging and service configuration
-service_configuration = pycommon_server.load('path/to/a/file/in/module/folder')
+service_configuration = layab.load('path/to/a/file/in/module/folder')
 ```
 
 ## Flask RestPlus ##
 
 The way your REST API behaves can be standardized
 
-You will find more details in the following modules:
-* pycommon_server.authentication
-* pycommon_server.pandas_responses
-
 ### Default behavior ###
 
-Importing pycommon_server will make sure that every flask request is loggued on reception. 
+Importing layab will make sure that every flask request is loggued on reception. 
 
 ```python
-import pycommon_server
+import layab
 ```
 
 ## How to install
 1. [python 3.7+](https://www.python.org/downloads/) must be installed
 2. Use pip to install module:
 ```sh
-python -m pip install pycommon_server -i https://all-team-remote:tBa%40W%29tvB%5E%3C%3B2Jm3@artifactory.tools.digital.engie.com/artifactory/api/pypi/all-team-pypi-prod/simple
+python -m pip install layab -i https://all-team-remote:tBa%40W%29tvB%5E%3C%3B2Jm3@artifactory.tools.digital.engie.com/artifactory/api/pypi/all-team-pypi-prod/simple
 ```

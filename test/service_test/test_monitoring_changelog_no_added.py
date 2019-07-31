@@ -5,7 +5,7 @@ import pytest
 from flask import Flask
 from flask_restplus import Api
 
-import pycommon_server
+import layab
 
 
 @pytest.fixture
@@ -78,7 +78,7 @@ def app(changelog):
     def pass_details():
         return "pass", {"toto2": {"status": "pass"}}
 
-    pycommon_server.add_monitoring_namespace(api, pass_details)
+    layab.add_monitoring_namespace(api, pass_details)
     return application
 
 

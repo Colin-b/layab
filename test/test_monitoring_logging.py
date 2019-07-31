@@ -2,7 +2,7 @@ import pytest
 import flask
 import flask_restplus
 
-import pycommon_server._monitoring
+import layab._monitoring
 
 
 @pytest.fixture
@@ -13,19 +13,19 @@ def app():
 
     @api.route("/logging")
     class Logging(flask_restplus.Resource):
-        @pycommon_server._monitoring._log_request_details
+        @layab._monitoring._log_request_details
         def get(self):
             return ""
 
-        @pycommon_server._monitoring._log_request_details
+        @layab._monitoring._log_request_details
         def post(self):
             return ""
 
-        @pycommon_server._monitoring._log_request_details
+        @layab._monitoring._log_request_details
         def put(self):
             return ""
 
-        @pycommon_server._monitoring._log_request_details
+        @layab._monitoring._log_request_details
         def delete(self):
             return ""
 

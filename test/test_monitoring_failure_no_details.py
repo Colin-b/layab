@@ -2,7 +2,7 @@ import pytest
 from flask import Flask
 from flask_restplus import Api
 
-import pycommon_server
+import layab
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def app():
     def failure_details():
         return "fail", None
 
-    pycommon_server.add_monitoring_namespace(api, failure_details)
+    layab.add_monitoring_namespace(api, failure_details)
 
     return application
 

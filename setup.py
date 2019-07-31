@@ -8,8 +8,8 @@ with open(os.path.join(this_dir, "README.md"), "r") as f:
     long_description = f.read()
 
 setup(
-    name="pycommon_server",
-    version=open("pycommon_server/version.py").readlines()[-1].split()[-1].strip("\"'"),
+    name="layab",
+    version=open("layab/version.py").readlines()[-1].split()[-1].strip("\"'"),
     description="Provide helper for REST API related stuff.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -30,19 +30,12 @@ setup(
         "testing": [
             # Used to manage testing of a Flask application
             "pytest-flask==0.15.0",
-            # Optional dependencies
-            "oauth2helper==2.0.0",
-            "pandas==0.25.0",
         ],
-        # Used to manage authentication
-        "authentication": ["oauth2helper==2.0.0"],
-        # Pandas
-        "pandas": ["pandas==0.25.0"],
     },
     python_requires=">=3.6",
     project_urls={
-        "Changelog": "https://github.tools.digital.engie.com/GEM-Py/pycommon_server/blob/development/CHANGELOG.md",
-        "Issues": "https://github.tools.digital.engie.com/GEM-Py/pycommon_server/issues",
+        "Changelog": "https://github.tools.digital.engie.com/GEM-Py/layab/blob/development/CHANGELOG.md",
+        "Issues": "https://github.tools.digital.engie.com/GEM-Py/layab/issues",
     },
     license="MIT",
     classifiers=[

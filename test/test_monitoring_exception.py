@@ -2,7 +2,7 @@ import pytest
 from flask import Flask
 from flask_restplus import Api
 
-import pycommon_server
+import layab
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def app():
     def throw_exception():
         raise Exception("This is the error message.")
 
-    pycommon_server.add_monitoring_namespace(api, throw_exception)
+    layab.add_monitoring_namespace(api, throw_exception)
 
     return application
 

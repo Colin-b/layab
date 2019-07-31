@@ -2,7 +2,7 @@ import pytest
 from flask import Flask
 from flask_restplus import Api
 
-import pycommon_server
+import layab
 
 
 @pytest.fixture
@@ -14,7 +14,7 @@ def app():
     def warning_details():
         return "warn", {"toto2": {"status": "pass"}, "toto": {"status": "warn"}}
 
-    pycommon_server.add_monitoring_namespace(api, warning_details)
+    layab.add_monitoring_namespace(api, warning_details)
 
     return application
 

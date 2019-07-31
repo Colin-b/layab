@@ -4,7 +4,7 @@ import pytest
 import flask
 import flask_restplus
 
-import pycommon_server
+import layab
 
 
 @pytest.fixture
@@ -15,17 +15,17 @@ def app():
 
     @api.route("/standard_responses")
     class StandardResponses(flask_restplus.Resource):
-        @api.doc(**pycommon_server.created_response_doc(api))
+        @api.doc(**layab.created_response_doc(api))
         def post(self):
-            return pycommon_server.created_response("/standard_responses?id=42")
+            return layab.created_response("/standard_responses?id=42")
 
-        @api.doc(**pycommon_server.updated_response_doc(api))
+        @api.doc(**layab.updated_response_doc(api))
         def put(self):
-            return pycommon_server.updated_response("/standard_responses?id=43")
+            return layab.updated_response("/standard_responses?id=43")
 
-        @api.response(*pycommon_server.deleted_response_doc)
+        @api.response(*layab.deleted_response_doc)
         def delete(self):
-            return pycommon_server.deleted_response
+            return layab.deleted_response
 
     return application
 
