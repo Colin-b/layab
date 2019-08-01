@@ -29,6 +29,24 @@ def app():
         def delete(self):
             return ""
 
+    @api.route("/logging_failure")
+    class LoggingFailure(flask_restplus.Resource):
+        @layab._monitoring._log_request_details
+        def get(self):
+            raise Exception("Error message")
+
+        @layab._monitoring._log_request_details
+        def post(self):
+            raise Exception("Error message")
+
+        @layab._monitoring._log_request_details
+        def put(self):
+            raise Exception("Error message")
+
+        @layab._monitoring._log_request_details
+        def delete(self):
+            raise Exception("Error message")
+
     return application
 
 
@@ -58,6 +76,28 @@ def test_generated_swagger(client):
                 "put": {
                     "responses": {"200": {"description": "Success"}},
                     "operationId": "put_logging",
+                    "tags": ["default"],
+                },
+            },
+            "/logging_failure": {
+                "delete": {
+                    "responses": {"200": {"description": "Success"}},
+                    "operationId": "delete_logging_failure",
+                    "tags": ["default"],
+                },
+                "get": {
+                    "responses": {"200": {"description": "Success"}},
+                    "operationId": "get_logging_failure",
+                    "tags": ["default"],
+                },
+                "post": {
+                    "responses": {"200": {"description": "Success"}},
+                    "operationId": "post_logging_failure",
+                    "tags": ["default"],
+                },
+                "put": {
+                    "responses": {"200": {"description": "Success"}},
+                    "operationId": "put_logging_failure",
                     "tags": ["default"],
                 },
             }
@@ -95,3 +135,27 @@ def test_log_put_request_details(client):
     response = client.put("/logging")
     assert response.status_code == 200
     assert response.json == ""
+
+
+def test_log_get_request_details_on_failure(client):
+    response = client.get("/logging_failure")
+    assert response.status_code == 500
+    assert response.json == {'message': 'Internal Server Error'}
+
+
+def test_log_delete_request_details_on_failure(client):
+    response = client.delete("/logging_failure")
+    assert response.status_code == 500
+    assert response.json == {'message': 'Internal Server Error'}
+
+
+def test_log_post_request_details_on_failure(client):
+    response = client.post("/logging_failure")
+    assert response.status_code == 500
+    assert response.json == {'message': 'Internal Server Error'}
+
+
+def test_log_put_request_details_on_failure(client):
+    response = client.put("/logging_failure")
+    assert response.status_code == 500
+    assert response.json == {'message': 'Internal Server Error'}
