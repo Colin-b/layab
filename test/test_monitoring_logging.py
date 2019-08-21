@@ -9,6 +9,7 @@ import layab._monitoring
 def app():
     application = flask.Flask(__name__)
     application.testing = True
+    application.config["PROPAGATE_EXCEPTIONS"] = False
     api = flask_restplus.Api(application)
 
     @api.route("/logging")
