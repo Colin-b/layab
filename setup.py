@@ -16,15 +16,13 @@ setup(
     packages=find_packages(exclude=["test"]),
     install_requires=[
         # Used to manage endpoints and swagger
-        "flask-restplus==0.12.1",
+        "flask-restplus==0.13.0",
         # Used to parse configurations
-        "PyYAML==5.1.1",
+        "PyYAML==5.1.2",
         # Cross Origin handling
         "flask_cors==3.0.8",
         # Used to gz compress http output
         "flask_compress==1.4.0",
-        # Used to ensure Black code style is checked on pre-commit
-        "pre-commit==1.17.0",
     ],
     extras_require={
         "testing": [
