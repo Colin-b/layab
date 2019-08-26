@@ -69,9 +69,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 - Known issue 1 (1.0.0)
 - Known issue 2 (1.0.0)
+
+[Unreleased]: https://github.test_url/test_project/compare/v1.1.0...HEAD
+[1.1.0]: https://github.test_url/test_project/compare/v1.0.1...v1.1.0
+[1.0.1]: https://github.test_url/test_project/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.test_url/test_project/releases/tag/v1.0.0
 """
         )
-    return changelog_file_path
+    yield changelog_file_path
+    os.remove(changelog_file_path)
 
 
 @pytest.fixture
