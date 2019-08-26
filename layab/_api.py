@@ -7,40 +7,12 @@ import flask_restplus
 import flask_cors
 import flask_compress
 import werkzeug
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from layab import get_environment
 
 
-class _ReverseProxied:
-    """
-    Wrap the application in this middleware and configure the
-    front-end server to add these headers, to let you quietly bind
-    this to a URL other than / and to an HTTP scheme that is
-    different than what is used locally.
-
-    :param app: the WSGI application
-    """
-
-    def __init__(self, app):
-        self.app = app
-
-    def __call__(self, environ, start_response):
-        original_url = environ.get("HTTP_X_ORIGINAL_REQUEST_URI", "")
-        if original_url:
-            script_name = "/" + original_url.split("/", maxsplit=2)[1]
-            environ["SCRIPT_NAME"] = script_name
-
-            path_info = environ.get("PATH_INFO", "")
-            if path_info.startswith(script_name):
-                environ["PATH_INFO"] = path_info[len(script_name) :]
-
-            scheme = environ.get("HTTP_X_SCHEME", "")
-            if scheme:
-                environ["wsgi.url_scheme"] = scheme
-        return self.app(environ, start_response)
-
-
-class _PycommonApi(flask_restplus.Api):
+class _Api(flask_restplus.Api):
     @werkzeug.cached_property
     def __schema__(self):
         schema = super().__schema__
@@ -77,8 +49,8 @@ def create_api(
         application.config["COMPRESS_MIMETYPES"] = compress_mimetypes
 
     if reverse_proxy:
-        application.wsgi_app = _ReverseProxied(application.wsgi_app)
+        application.wsgi_app = ProxyFix(application.wsgi_app, x_proto=1, x_host=1, x_prefix=1)
 
     version = importlib.import_module(f"{service_package}.version").__version__
 
-    return application, _PycommonApi(application, version=version, **kwargs)
+    return application, _Api(application, version=version, **kwargs)
