@@ -41,16 +41,20 @@ def add_monitoring_namespace(
         current_release = {}
         current_category = None
         release_pattern = re.compile("^## \[(.*)\] - (.*)$")
+        link_pattern = re.compile("^\[(.*)\]: (.*)$")
         with open(changelog_path) as change_log:
             for line in change_log:
                 line = line.strip(" \n")
                 release = release_pattern.fullmatch(line)
+                link = link_pattern.fullmatch(line)
                 if release:
                     current_release = {
                         "version": release.group(1),
                         "release_date": release.group(2),
                     }
                     changes.append(current_release)
+                elif link:
+                    continue
                 elif "### Added" == line:
                     current_category = current_release.setdefault("added", [])
                 elif "### Changed" == line:

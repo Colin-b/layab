@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.0] - 2019-09-21
+## [1.1.1] - 2019-08-26
+### Fixed
+- Use werkzeug ProxyFix instead of a homemade one. It should fix the issue with serving OpenAPI definition to Swagger-UI using HTTPS.
+- Remove bottom links from /changelog results
+
+## [1.1.0] - 2019-08-21
 ### Changed
 - Remove pre-commit from dependencies and add information on CONTRIBUTING guide on how to install it using pip.
 - Update flask-restplus to version 0.13.0
@@ -16,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Initial release.
 
-[Unreleased]: https://github.tools.digital.engie.com/GEM-Py/layab/compare/v1.1.0...HEAD
+[Unreleased]: https://github.tools.digital.engie.com/GEM-Py/layab/compare/v1.1.1...HEAD
+[1.1.1]: https://github.tools.digital.engie.com/GEM-Py/layab/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.tools.digital.engie.com/GEM-Py/layab/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.tools.digital.engie.com/GEM-Py/layab/releases/tag/v1.0.0
