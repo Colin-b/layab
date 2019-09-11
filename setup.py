@@ -32,8 +32,8 @@ setup(
     },
     python_requires=">=3.6",
     project_urls={
-        "Changelog": "https://github.tools.digital.engie.com/GEM-Py/layab/blob/master/CHANGELOG.md",
-        "Issues": "https://github.tools.digital.engie.com/GEM-Py/layab/issues",
+        "Changelog": "https://github.tools.digital.engie.com/gempy/layab/blob/master/CHANGELOG.md",
+        "Issues": "https://github.tools.digital.engie.com/gempy/layab/issues",
     },
     license="MIT",
     classifiers=[

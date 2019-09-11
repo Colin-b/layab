@@ -23,7 +23,7 @@ def test_health_check_response_on_exception(client):
     response = client.get("/health")
     assert response.status_code == 400
     assert response.json == {
-        "details": {},
+        "checks": {},
         "output": "This is the error message.",
         "releaseId": "3.2.1",
         "status": "fail",
