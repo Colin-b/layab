@@ -23,7 +23,7 @@ def test_health_check_response_on_pass(client):
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json == {
-        "details": {"toto2": {"status": "pass"}},
+        "checks": {"toto2": {"status": "pass"}},
         "releaseId": "3.2.1",
         "status": "pass",
         "version": "3",
