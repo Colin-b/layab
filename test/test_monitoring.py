@@ -88,7 +88,7 @@ def test_generated_swagger(client):
         "tags": [{"name": "Monitoring", "description": "Monitoring operations"}],
         "definitions": {
             "HealthPass": {
-                "required": ["details", "releaseId", "status", "version"],
+                "required": ["checks", "releaseId", "status", "version"],
                 "properties": {
                     "status": {
                         "type": "string",
@@ -106,7 +106,7 @@ def test_generated_swagger(client):
                         "description": "Version of the service.",
                         "example": "1.0.0",
                     },
-                    "details": {
+                    "checks": {
                         "type": "object",
                         "description": "Provides more details about the status of the service.",
                     },
@@ -114,7 +114,7 @@ def test_generated_swagger(client):
                 "type": "object",
             },
             "HealthWarn": {
-                "required": ["details", "releaseId", "status", "version"],
+                "required": ["checks", "releaseId", "status", "version"],
                 "properties": {
                     "status": {
                         "type": "string",
@@ -132,7 +132,7 @@ def test_generated_swagger(client):
                         "description": "Version of the service.",
                         "example": "1.0.0",
                     },
-                    "details": {
+                    "checks": {
                         "type": "object",
                         "description": "Provides more details about the status of the service.",
                     },
@@ -140,7 +140,7 @@ def test_generated_swagger(client):
                 "type": "object",
             },
             "HealthFail": {
-                "required": ["details", "releaseId", "status", "version"],
+                "required": ["checks", "releaseId", "status", "version"],
                 "properties": {
                     "status": {
                         "type": "string",
@@ -158,7 +158,7 @@ def test_generated_swagger(client):
                         "description": "Version of the service.",
                         "example": "1.0.0",
                     },
-                    "details": {
+                    "checks": {
                         "type": "object",
                         "description": "Provides more details about the status of the service.",
                     },

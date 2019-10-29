@@ -111,7 +111,7 @@ def add_monitoring_namespace(
                             required=True,
                             example="1.0.0",
                         ),
-                        "details": flask_restplus.fields.Raw(
+                        "checks": flask_restplus.fields.Raw(
                             description="Provides more details about the status of the service.",
                             required=True,
                         ),
@@ -139,7 +139,7 @@ def add_monitoring_namespace(
                             required=True,
                             example="1.0.0",
                         ),
-                        "details": flask_restplus.fields.Raw(
+                        "checks": flask_restplus.fields.Raw(
                             description="Provides more details about the status of the service.",
                             required=True,
                         ),
@@ -167,7 +167,7 @@ def add_monitoring_namespace(
                             required=True,
                             example="1.0.0",
                         ),
-                        "details": flask_restplus.fields.Raw(
+                        "checks": flask_restplus.fields.Raw(
                             description="Provides more details about the status of the service.",
                             required=True,
                         ),
