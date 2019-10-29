@@ -16,18 +16,18 @@ setup(
     packages=find_packages(exclude=["test"]),
     install_requires=[
         # Used to manage endpoints and swagger
-        "flask-restplus==0.13.0",
+        "flask-restplus==0.13.*",
         # Used to parse configurations
-        "PyYAML==5.1.2",
+        "PyYAML==5.*",
         # Cross Origin handling
-        "flask_cors==3.0.8",
+        "flask_cors==3.*",
         # Used to gz compress http output
-        "flask_compress==1.4.0",
+        "flask_compress==1.*",
     ],
     extras_require={
         "testing": [
             # Used to manage testing of a Flask application
-            "pytest-flask==0.15.0",
+            "pytest-flask==0.15.*",
         ],
     },
     python_requires=">=3.6",
@@ -45,6 +45,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
         "Topic :: Software Development :: Build Tools",
     ],
     keywords=["flask"],
