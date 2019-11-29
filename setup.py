@@ -48,6 +48,8 @@ setup(
         "testing": [
             # Used to manage testing of a Flask application
             "pytest-flask==0.15.*",
+            # Used to check coverage
+            "pytest-cov==2.*",
         ],
     },
     python_requires=">=3.6",
