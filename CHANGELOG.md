@@ -10,5 +10,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.tools.digital.engie.com/gempy/layab/compare/v1.4.0...HEAD
-[1.4.0]: https://github.tools.digital.engie.com/gempy/layab/releases/tag/v1.4.0
+[Unreleased]: https://github.com/Colin-b/layab/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/Colin-b/layab/releases/tag/v1.4.0
