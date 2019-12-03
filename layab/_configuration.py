@@ -9,27 +9,30 @@ import yaml
 logger = logging.getLogger(__name__)
 
 
-def load(server_file_path: str) -> dict:
+def load(server_file_path: str, logging_loader=yaml.FullLoader) -> dict:
     """
     Load logging and server YAML configurations according to SERVER_ENVIRONMENT environment variable.
 
     :param server_file_path: Path to the server.py file (or any other file located in the python module directory).
+    :param logging_loader: yaml loader to use to process the logging configuration. Use yaml.FullLoader by default.
     :return: server configuration as a dictionary.
     """
     module_directory = os.path.abspath(os.path.dirname(server_file_path))
     configuration_folder = os.path.join(module_directory, "..", "configuration")
-    load_logging_configuration(configuration_folder)
+    load_logging_configuration(configuration_folder, logging_loader)
     return load_configuration(configuration_folder)
 
 
-def load_logging_configuration(configuration_folder: str) -> str:
+def load_logging_configuration(configuration_folder: str, loader=yaml.FullLoader) -> str:
     """
     Load logging configuration according to SERVER_ENVIRONMENT environment variable.
     If file is not found, then logging will be performed as INFO into stdout.
     Return loaded configuration file path. None if not loaded.
+
+    :param loader: yaml loader to use to process the logging configuration. Use yaml.FullLoader by default.
     """
     file_path = os.path.join(configuration_folder, f"logging_{get_environment()}.yml")
-    return _load_logging_configuration(file_path)
+    return _load_logging_configuration(file_path, loader)
 
 
 def get_environment():
@@ -37,14 +40,14 @@ def get_environment():
     return os.environ.get("SERVER_ENVIRONMENT", "default")
 
 
-def _load_logging_configuration(file_path: str) -> str:
+def _load_logging_configuration(file_path: str, loader) -> str:
     """
     Load YAML logging configuration file_path.
     If file is not found, then logging will be performed as INFO into stdout.
     """
     if os.path.isfile(file_path):
         with open(file_path, "r") as config_file:
-            logging.config.dictConfig(yaml.full_load(config_file))
+            logging.config.dictConfig(yaml.load(config_file, loader))
         logger.info(f"Logging configuration file ({file_path}) loaded.")
         return file_path
     else:

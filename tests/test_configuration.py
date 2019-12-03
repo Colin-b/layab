@@ -3,6 +3,7 @@ import os.path
 import tempfile
 
 import pytest
+import yaml
 
 import layab
 
@@ -109,6 +110,31 @@ def test_server_environment_logging_configuration_loaded(remove_server_environme
         ) == layab.load_logging_configuration(tmp_dir)
 
 
+def test_logging_configuration_with_unsafe_code_can_be_loaded(remove_server_environment):
+    os.environ["SERVER_ENVIRONMENT"] = "test"
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        _add_file(
+            tmp_dir,
+            "logging_test.yml",
+            "version: 1",
+            "formatters:",
+            "  clean:",
+            "    format: '%(message)s'",
+            "    server_environment: !!python/object/apply:os.getenv ['SERVER_ENVIRONMENT', None]",
+            "handlers:",
+            "  standard_output:",
+            "    class: logging.StreamHandler",
+            "    formatter: clean",
+            "    stream: ext://sys.stdout",
+            "root:",
+            "  level: INFO",
+            "  handlers: [standard_output]",
+        )
+        assert os.path.join(
+            tmp_dir, "logging_test.yml"
+        ) == layab.load_logging_configuration(tmp_dir, yaml.UnsafeLoader)
+
+
 def test_all_default_environment_configurations_loaded():
     with tempfile.TemporaryDirectory() as tmp_dir:
         configuration_folder = _add_dir(tmp_dir, "configuration")
@@ -169,4 +195,37 @@ def test_all_server_environment_configurations_loaded(remove_server_environment)
         )
         assert {"section_test": {"key": "value"}} == layab.load(
             os.path.join(server_folder, "server.py")
+        )
+
+
+def test_configurations_with_unsafe_code_can_be_loaded(remove_server_environment):
+    os.environ["SERVER_ENVIRONMENT"] = "test"
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        configuration_folder = _add_dir(tmp_dir, "configuration")
+        server_folder = _add_dir(tmp_dir, "my_server")
+        _add_file(
+            configuration_folder,
+            "configuration_test.yml",
+            "section_test:",
+            "  key: value",
+        )
+        _add_file(
+            configuration_folder,
+            "logging_test.yml",
+            "version: 1",
+            "formatters:",
+            "  clean:",
+            "    format: '%(message)s'",
+            "    server_environment: !!python/object/apply:os.getenv ['SERVER_ENVIRONMENT', None]",
+            "handlers:",
+            "  standard_output:",
+            "    class: logging.StreamHandler",
+            "    formatter: clean",
+            "    stream: ext://sys.stdout",
+            "root:",
+            "  level: INFO",
+            "  handlers: [standard_output]",
+        )
+        assert {"section_test": {"key": "value"}} == layab.load(
+            os.path.join(server_folder, "server.py"), logging_loader=yaml.UnsafeLoader
         )
