@@ -7,6 +7,8 @@ import yaml
 
 import layab
 
+# This file is named with a test_z prefix to ensure the logging configuration do not interfere with caplog fixture in other test files
+
 
 def _add_file(folder: str, file_name: str, *lines) -> None:
     with open(os.path.join(folder, file_name), "w") as config_file:
