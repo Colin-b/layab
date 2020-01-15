@@ -311,9 +311,12 @@ class _Statistics:
                 }
             )
         self.start = time.perf_counter()
+        logger.info({**self.stats, "request_status": "start"})
 
-    def success(self):
+    def success(self, response):
         self.stats["request_processing_time"] = time.perf_counter() - self.start
+        self.stats["request_status"] = "success"
+        self.stats["request_status_code"] = response.status_code if isinstance(response, flask.Response) else 200
         logger.info(self.stats)
 
     def exception_occurred(self):
@@ -337,6 +340,7 @@ class _Statistics:
                 "error.class": exc_type.__name__,
                 "error.msg": str(exc_value),
                 "error.traceback": traceback.format_exc(),
+                "request_status": "error",
             }
         )
         logger.critical(self.stats)
@@ -345,13 +349,14 @@ class _Statistics:
 def _log_request_details(func):
     @functools.wraps(func)
     def wrapper(*func_args, **func_kwargs):
-        if "Health.get" in func.__qualname__:
+        # Avoid Health check logging
+        if "Health.get" in func.__qualname__ or (func_args and isinstance(func_args[0], flask_restplus.Resource)):
             return func(*func_args, **func_kwargs)
 
         statistics = _Statistics(func, *func_args, **func_kwargs)
         try:
             ret = func(*func_args, **func_kwargs)
-            statistics.success()
+            statistics.success(ret)
             return ret
         except Exception:
             statistics.exception_occurred()

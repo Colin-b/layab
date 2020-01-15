@@ -44,9 +44,8 @@ def create_api(
         flask_cors.CORS(application)
 
     if compress_mimetypes:
-        compress = flask_compress.Compress()
-        compress.init_app(application)
         application.config["COMPRESS_MIMETYPES"] = compress_mimetypes
+        flask_compress.Compress(application)
 
     if reverse_proxy:
         application.wsgi_app = ProxyFix(application.wsgi_app, x_proto=1, x_host=1, x_prefix=1)

@@ -1,3 +1,5 @@
+import logging
+
 import pytest
 import flask
 import flask_restplus
@@ -114,49 +116,101 @@ def test_generated_swagger(client):
     }
 
 
-def test_log_get_request_details(client):
+def test_log_get_request_details(client, caplog):
+    caplog.set_level(logging.INFO)
     response = client.get("/logging")
     assert response.status_code == 200
     assert response.json == ""
+    assert len(caplog.messages) == 2
+    assert eval(caplog.messages[0]) == {'func_name': 'Logging.get', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'start'}
+    end_message = eval(caplog.messages[1])
+    end_message.pop('request_processing_time')
+    assert end_message == {'func_name': 'Logging.get', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'success', 'request_status_code': 200}
 
 
-def test_log_delete_request_details(client):
+def test_log_delete_request_details(client, caplog):
+    caplog.set_level(logging.INFO)
     response = client.delete("/logging")
     assert response.status_code == 200
     assert response.json == ""
+    assert len(caplog.messages) == 2
+    assert eval(caplog.messages[0]) == {'func_name': 'Logging.delete', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'start'}
+    end_message = eval(caplog.messages[1])
+    end_message.pop('request_processing_time')
+    assert end_message == {'func_name': 'Logging.delete', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'success', 'request_status_code': 200}
 
 
-def test_log_post_request_details(client):
+def test_log_post_request_details(client, caplog):
+    caplog.set_level(logging.INFO)
     response = client.post("/logging")
     assert response.status_code == 200
     assert response.json == ""
+    assert len(caplog.messages) == 2
+    assert eval(caplog.messages[0]) == {'func_name': 'Logging.post', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'start'}
+    end_message = eval(caplog.messages[1])
+    end_message.pop('request_processing_time')
+    assert end_message == {'func_name': 'Logging.post', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'success', 'request_status_code': 200}
 
 
-def test_log_put_request_details(client):
+def test_log_put_request_details(client, caplog):
+    caplog.set_level(logging.INFO)
     response = client.put("/logging")
     assert response.status_code == 200
     assert response.json == ""
+    assert len(caplog.messages) == 2
+    assert eval(caplog.messages[0]) == {'func_name': 'Logging.put', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'start'}
+    end_message = eval(caplog.messages[1])
+    end_message.pop('request_processing_time')
+    assert end_message == {'func_name': 'Logging.put', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'success', 'request_status_code': 200}
 
 
-def test_log_get_request_details_on_failure(client):
+def test_log_get_request_details_on_failure(client, caplog):
+    caplog.set_level(logging.INFO)
     response = client.get("/logging_failure")
     assert response.status_code == 500
     assert response.json == {'message': 'Internal Server Error'}
+    assert len(caplog.messages) == 3
+    assert eval(caplog.messages[0]) == {'func_name': 'LoggingFailure.get', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'start'}
+    end_message = eval(caplog.messages[1])
+    end_message.pop('error.traceback')
+    assert end_message == {'error.class': 'Exception', 'error.msg': 'Error message', 'error.summary': 'test_monitoring_logging.get/_monitoring.wrapper', 'func_name': 'LoggingFailure.get', 'request.data': b'', 'request_headers.Host': 'localhost', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_status': 'error'}
+    assert caplog.messages[2] == "Exception on /logging_failure [GET]"
 
 
-def test_log_delete_request_details_on_failure(client):
+def test_log_delete_request_details_on_failure(client, caplog):
+    caplog.set_level(logging.INFO)
     response = client.delete("/logging_failure")
     assert response.status_code == 500
     assert response.json == {'message': 'Internal Server Error'}
+    assert len(caplog.messages) == 3
+    assert eval(caplog.messages[0]) == {'func_name': 'LoggingFailure.delete', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'start'}
+    end_message = eval(caplog.messages[1])
+    end_message.pop('error.traceback')
+    assert end_message == {'error.class': 'Exception', 'error.msg': 'Error message', 'error.summary': 'test_monitoring_logging.delete/_monitoring.wrapper', 'func_name': 'LoggingFailure.delete', 'request.data': b'', 'request_headers.Host': 'localhost', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_status': 'error'}
+    assert caplog.messages[2] == "Exception on /logging_failure [DELETE]"
 
 
-def test_log_post_request_details_on_failure(client):
+def test_log_post_request_details_on_failure(client, caplog):
+    caplog.set_level(logging.INFO)
     response = client.post("/logging_failure")
     assert response.status_code == 500
     assert response.json == {'message': 'Internal Server Error'}
+    assert len(caplog.messages) == 3
+    assert eval(caplog.messages[0]) == {'func_name': 'LoggingFailure.post', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'start'}
+    end_message = eval(caplog.messages[1])
+    end_message.pop('error.traceback')
+    assert end_message == {'error.class': 'Exception', 'error.msg': 'Error message', 'error.summary': 'test_monitoring_logging.post/_monitoring.wrapper', 'func_name': 'LoggingFailure.post', 'request.data': b'', 'request_headers.Host': 'localhost', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_status': 'error'}
+    assert caplog.messages[2] == "Exception on /logging_failure [POST]"
 
 
-def test_log_put_request_details_on_failure(client):
+def test_log_put_request_details_on_failure(client, caplog):
+    caplog.set_level(logging.INFO)
     response = client.put("/logging_failure")
     assert response.status_code == 500
     assert response.json == {'message': 'Internal Server Error'}
+    assert len(caplog.messages) == 3
+    assert eval(caplog.messages[0]) == {'func_name': 'LoggingFailure.put', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_headers.Host': 'localhost', 'request_status': 'start'}
+    end_message = eval(caplog.messages[1])
+    end_message.pop('error.traceback')
+    assert end_message == {'error.class': 'Exception', 'error.msg': 'Error message', 'error.summary': 'test_monitoring_logging.put/_monitoring.wrapper', 'func_name': 'LoggingFailure.put', 'request.data': b'', 'request_headers.Host': 'localhost', 'request_headers.User-Agent': 'werkzeug/0.16.0', 'request_status': 'error'}
+    assert caplog.messages[2] == "Exception on /logging_failure [PUT]"
