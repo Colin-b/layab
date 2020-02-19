@@ -81,6 +81,80 @@ def get_resource(request):
 
 ## Migration guide
 
+If an information on something that was previously existing is missing, please open an issue.
+
+### Create application and OpenAPI definition and Swagger-UI endpoints
+
+Layab 1.*
+
+```python
+import layab
+
+app, api = layab.create_api(
+    __file__,
+    compress_mimetypes=["text/csv", "application/json"],
+    title="My API.",
+    description="My description.",
+)
+```
+
+Layab 2.*
+
+```python
+import layab
+from starlette.applications import Starlette
+import apispec_starlette
+
+app = Starlette(middleware=layab.middleware())
+spec = apispec_starlette.add_swagger_json_endpoint(
+    app, 
+    title="My API.",
+    version="1.0.0",  # You now have to set the version yourself
+    info={
+        "description": "My description.",
+        "x-server-environment": layab.get_environment(),
+    }
+)
+# TODO Add swagger-ui endpoint on /
+```
+
+### Monitoring endpoints
+
+Layab 1.*
+
+```python
+import layab
+
+api = None
+
+def health_details():
+    pass  # Implement this
+
+
+layab.add_monitoring_namespace(api, health_details)
+```
+
+Layab 2.*
+
+```python
+from starlette.applications import Starlette
+from healthpy.starlette import add_consul_health_endpoint
+from keepachangelog.starlette import add_changelog_endpoint
+
+app = Starlette()
+
+def health_check():
+    pass  # Implement this
+
+
+add_consul_health_endpoint(app, health_check)
+add_changelog_endpoint(app, "../CHANGELOG.md")  # You now have to set the path to the changelog yourself
+```
+
+Refer to [healthpy](https://pypi.org/project/healthpy/) documentation for more information on what is possible to check API health.
+
+Refer to [keepachangelog](https://pypi.org/project/keepachangelog/) documentation for more information on how changelog is handled.
+
 ### Created response
 
 Layab 1.*

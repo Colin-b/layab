@@ -37,9 +37,9 @@ def test_default_configuration_loaded_if_no_environment_specified():
         _add_file(
             tmp_dir, "configuration_default.yml", "section_default:", "  key: value"
         )
-        assert {
-            "section_default": {"key": "value"}
-        } == layab.load_configuration(tmp_dir)
+        assert {"section_default": {"key": "value"}} == layab.load_configuration(
+            tmp_dir
+        )
 
 
 def test_environment_is_default_if_no_environment_specified():
@@ -55,9 +55,7 @@ def test_server_environment_configuration_loaded(remove_server_environment):
     os.environ["SERVER_ENVIRONMENT"] = "test"
     with tempfile.TemporaryDirectory() as tmp_dir:
         _add_file(tmp_dir, "configuration_test.yml", "section_test:", "  key: value")
-        assert {"section_test": {"key": "value"}} == layab.load_configuration(
-            tmp_dir
-        )
+        assert {"section_test": {"key": "value"}} == layab.load_configuration(tmp_dir)
 
 
 def test_hardcoded_default_logging_configuration_if_file_not_found():
@@ -112,7 +110,9 @@ def test_server_environment_logging_configuration_loaded(remove_server_environme
         ) == layab.load_logging_configuration(tmp_dir)
 
 
-def test_logging_configuration_with_unsafe_code_can_be_loaded(remove_server_environment):
+def test_logging_configuration_with_unsafe_code_can_be_loaded(
+    remove_server_environment,
+):
     os.environ["SERVER_ENVIRONMENT"] = "test"
     with tempfile.TemporaryDirectory() as tmp_dir:
         _add_file(

@@ -16,8 +16,7 @@ def _base_path(request: Request) -> str:
     """
     if "X-Original-Request-Uri" in request.headers:
         service_path = (
-            "/"
-            + request.headers["X-Original-Request-Uri"].split("/", maxsplit=2)[1]
+            "/" + request.headers["X-Original-Request-Uri"].split("/", maxsplit=2)[1]
         )
         return f'{request.url.scheme}://{request.headers["Host"]}{service_path}'
     return f"{request.base_url.scheme}://{request.base_url.netloc}"
@@ -30,8 +29,11 @@ class LocationResponse(Response):
      * Status code set to 201.
      * Content type set to text/plain.
     """
+
     def __init__(self, request: Request, path: str, *args, **kwargs) -> None:
         kwargs.setdefault("status_code", 201)
-        kwargs.setdefault("headers", {}).setdefault("location", f"{_base_path(request)}{path}")
+        kwargs.setdefault("headers", {}).setdefault(
+            "location", f"{_base_path(request)}{path}"
+        )
         kwargs.setdefault("media_type", "text/plain")
         Response.__init__(self, *args, **kwargs)

@@ -17,10 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def middleware(
-    *,
-    cors: bool = True,
-    compress: bool = False,
-    reverse_proxy: bool = True,
+    *, cors: bool = True, compress: bool = False, reverse_proxy: bool = True
 ) -> List[Middleware]:
     """
     Create a default Starlette middleware stack.
@@ -32,7 +29,14 @@ def middleware(
     """
     middleware = [Middleware(LoggingMiddleware, skip_paths=["/health"])]
     if cors:
-        middleware.append(Middleware(CORSMiddleware, allow_origins=['*'], allow_methods=['*'], allow_headers=['*']))
+        middleware.append(
+            Middleware(
+                CORSMiddleware,
+                allow_origins=["*"],
+                allow_methods=["*"],
+                allow_headers=["*"],
+            )
+        )
 
     if compress:
         middleware.append(Middleware(GZipMiddleware))
@@ -41,6 +45,7 @@ def middleware(
         # Consider uvicorn as an optional dependency
         # TODO Check if the missing X-Forwarded-Prefix handling will have an impact
         from uvicorn.middleware.proxy_headers import ProxyHeadersMiddleware
+
         middleware.append(Middleware(ProxyHeadersMiddleware, trusted_hosts="*"))
 
     return middleware
@@ -70,11 +75,14 @@ class LoggingMiddleware(BaseHTTPMiddleware):
             - error.msg: str representation of the exception instance
             - error.traceback: exception trace
     """
+
     def __init__(self, app: ASGIApp, skip_paths: List[str] = None):
         super().__init__(app)
         self.skip_paths = skip_paths or []
 
-    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+    async def dispatch(
+        self, request: Request, call_next: RequestResponseEndpoint
+    ) -> Response:
         if request.url.path in self.skip_paths:
             return await call_next(request)
 
@@ -93,15 +101,27 @@ class _Statistics:
     def __init__(self, request: Request):
         self.request = request
         original_request_id = request.headers.get("X-Request-Id")
-        request_id = f"{original_request_id},{uuid.uuid4()}" if original_request_id else str(uuid.uuid4())
-        self.stats = {"request_url.path": request.url.path, "request_method": request.method, "request_id": request_id}
-        self.stats.update({
-                f"request_path.{param_name}": param_value
-                for param_name, param_value in request.path_params.items()
-            })
+        request_id = (
+            f"{original_request_id},{uuid.uuid4()}"
+            if original_request_id
+            else str(uuid.uuid4())
+        )
+        self.stats = {
+            "request_url.path": request.url.path,
+            "request_method": request.method,
+            "request_id": request_id,
+        }
         self.stats.update(
             {
-                f"request_args.{param_name}": (param_value[0] if len(param_value) == 1 else param_value)
+                f"request_path.{param_name}": param_value
+                for param_name, param_value in request.path_params.items()
+            }
+        )
+        self.stats.update(
+            {
+                f"request_args.{param_name}": (
+                    param_value[0] if len(param_value) == 1 else param_value
+                )
                 for param_name, param_value in request.query_params.items()
             }
         )

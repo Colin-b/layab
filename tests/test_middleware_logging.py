@@ -77,27 +77,31 @@ def test_log_get_request_details(client, caplog, mock_uuid):
     assert response.status_code == 200
     assert response.text == ""
     assert len(caplog.messages) == 2
-    assert eval(caplog.messages[0]) == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-'request_id': '1-2-3-4-5',
- 'request_method': 'GET',
- 'request_status': 'start',
- 'request_url.path': '/logging'}
+    assert eval(caplog.messages[0]) == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "GET",
+        "request_status": "start",
+        "request_url.path": "/logging",
+    }
     end_message = eval(caplog.messages[1])
-    end_message.pop('request_processing_time')
-    assert end_message == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                           'request_id': '1-2-3-4-5',
- 'request_method': 'GET',
- 'request_status': 'success',
- 'request_status_code': 200,
- 'request_url.path': '/logging'}
+    end_message.pop("request_processing_time")
+    assert end_message == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "GET",
+        "request_status": "success",
+        "request_status_code": 200,
+        "request_url.path": "/logging",
+    }
 
 
 def test_log_delete_request_details(client, caplog, mock_uuid):
@@ -106,29 +110,33 @@ def test_log_delete_request_details(client, caplog, mock_uuid):
     assert response.status_code == 200
     assert response.text == ""
     assert len(caplog.messages) == 2
-    assert eval(caplog.messages[0]) == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                                        'request_id': '1-2-3-4-5',
- 'request_method': 'DELETE',
- 'request_status': 'start',
- 'request_url.path': '/logging'}
+    assert eval(caplog.messages[0]) == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "DELETE",
+        "request_status": "start",
+        "request_url.path": "/logging",
+    }
     end_message = eval(caplog.messages[1])
-    end_message.pop('request_processing_time')
-    assert end_message == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                           'request_id': '1-2-3-4-5',
- 'request_method': 'DELETE',
- 'request_status': 'success',
- 'request_status_code': 200,
- 'request_url.path': '/logging'}
+    end_message.pop("request_processing_time")
+    assert end_message == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "DELETE",
+        "request_status": "success",
+        "request_status_code": 200,
+        "request_url.path": "/logging",
+    }
 
 
 def test_log_post_request_details(client, caplog, mock_uuid):
@@ -137,29 +145,33 @@ def test_log_post_request_details(client, caplog, mock_uuid):
     assert response.status_code == 200
     assert response.text == ""
     assert len(caplog.messages) == 2
-    assert eval(caplog.messages[0]) == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                                        'request_id': '1-2-3-4-5',
- 'request_method': 'POST',
- 'request_status': 'start',
- 'request_url.path': '/logging'}
+    assert eval(caplog.messages[0]) == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "POST",
+        "request_status": "start",
+        "request_url.path": "/logging",
+    }
     end_message = eval(caplog.messages[1])
-    end_message.pop('request_processing_time')
-    assert end_message == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                           'request_id': '1-2-3-4-5',
- 'request_method': 'POST',
- 'request_status': 'success',
- 'request_status_code': 200,
- 'request_url.path': '/logging'}
+    end_message.pop("request_processing_time")
+    assert end_message == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "POST",
+        "request_status": "success",
+        "request_status_code": 200,
+        "request_url.path": "/logging",
+    }
 
 
 def test_log_put_request_details(client, caplog, mock_uuid):
@@ -168,29 +180,33 @@ def test_log_put_request_details(client, caplog, mock_uuid):
     assert response.status_code == 200
     assert response.text == ""
     assert len(caplog.messages) == 2
-    assert eval(caplog.messages[0]) == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                                        'request_id': '1-2-3-4-5',
- 'request_method': 'PUT',
- 'request_status': 'start',
- 'request_url.path': '/logging'}
+    assert eval(caplog.messages[0]) == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "PUT",
+        "request_status": "start",
+        "request_url.path": "/logging",
+    }
     end_message = eval(caplog.messages[1])
-    end_message.pop('request_processing_time')
-    assert end_message == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                           'request_id': '1-2-3-4-5',
- 'request_method': 'PUT',
- 'request_status': 'success',
- 'request_status_code': 200,
- 'request_url.path': '/logging'}
+    end_message.pop("request_processing_time")
+    assert end_message == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "PUT",
+        "request_status": "success",
+        "request_status_code": 200,
+        "request_url.path": "/logging",
+    }
 
 
 def test_log_get_request_details_on_failure(client, caplog, mock_uuid):
@@ -199,29 +215,33 @@ def test_log_get_request_details_on_failure(client, caplog, mock_uuid):
     assert response.status_code == 500
     assert response.text == "Internal Server Error"
     assert len(caplog.messages) == 2
-    assert eval(caplog.messages[0]) == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                                        'request_id': '1-2-3-4-5',
- 'request_method': 'GET',
- 'request_status': 'start',
- 'request_url.path': '/logging_failure'}
+    assert eval(caplog.messages[0]) == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "GET",
+        "request_status": "start",
+        "request_url.path": "/logging_failure",
+    }
     end_message = eval(caplog.messages[1])
-    end_message.pop('error.traceback')
-    assert end_message == {'error.class': 'Exception',
- 'error.msg': 'Error message',
- 'request.data': b'',
- 'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                           'request_id': '1-2-3-4-5',
- 'request_method': 'GET',
- 'request_status': 'error',
- 'request_url.path': '/logging_failure'}
+    end_message.pop("error.traceback")
+    assert end_message == {
+        "error.class": "Exception",
+        "error.msg": "Error message",
+        "request.data": b"",
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "GET",
+        "request_status": "error",
+        "request_url.path": "/logging_failure",
+    }
 
 
 def test_log_delete_request_details_on_failure(client, caplog, mock_uuid):
@@ -230,31 +250,35 @@ def test_log_delete_request_details_on_failure(client, caplog, mock_uuid):
     assert response.status_code == 500
     assert response.text == "Internal Server Error"
     assert len(caplog.messages) == 2
-    assert eval(caplog.messages[0]) == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                                        'request_id': '1-2-3-4-5',
- 'request_method': 'DELETE',
- 'request_status': 'start',
- 'request_url.path': '/logging_failure'}
+    assert eval(caplog.messages[0]) == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "DELETE",
+        "request_status": "start",
+        "request_url.path": "/logging_failure",
+    }
     end_message = eval(caplog.messages[1])
-    end_message.pop('error.traceback')
-    assert end_message == {'error.class': 'Exception',
- 'error.msg': 'Error message',
- 'request.data': b'',
- 'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                           'request_id': '1-2-3-4-5',
- 'request_method': 'DELETE',
- 'request_status': 'error',
- 'request_url.path': '/logging_failure'}
+    end_message.pop("error.traceback")
+    assert end_message == {
+        "error.class": "Exception",
+        "error.msg": "Error message",
+        "request.data": b"",
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "DELETE",
+        "request_status": "error",
+        "request_url.path": "/logging_failure",
+    }
 
 
 def test_log_post_request_details_on_failure(client, caplog, mock_uuid):
@@ -263,31 +287,35 @@ def test_log_post_request_details_on_failure(client, caplog, mock_uuid):
     assert response.status_code == 500
     assert response.text == "Internal Server Error"
     assert len(caplog.messages) == 2
-    assert eval(caplog.messages[0]) == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                                        'request_id': '1-2-3-4-5',
- 'request_method': 'POST',
- 'request_status': 'start',
- 'request_url.path': '/logging_failure'}
+    assert eval(caplog.messages[0]) == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "POST",
+        "request_status": "start",
+        "request_url.path": "/logging_failure",
+    }
     end_message = eval(caplog.messages[1])
-    end_message.pop('error.traceback')
-    assert end_message == {'error.class': 'Exception',
- 'error.msg': 'Error message',
- 'request.data': b'',
- 'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                           'request_id': '1-2-3-4-5',
- 'request_method': 'POST',
- 'request_status': 'error',
- 'request_url.path': '/logging_failure'}
+    end_message.pop("error.traceback")
+    assert end_message == {
+        "error.class": "Exception",
+        "error.msg": "Error message",
+        "request.data": b"",
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "POST",
+        "request_status": "error",
+        "request_url.path": "/logging_failure",
+    }
 
 
 def test_log_put_request_details_on_failure(client, caplog, mock_uuid):
@@ -296,31 +324,35 @@ def test_log_put_request_details_on_failure(client, caplog, mock_uuid):
     assert response.status_code == 500
     assert response.text == "Internal Server Error"
     assert len(caplog.messages) == 2
-    assert eval(caplog.messages[0]) == {'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                                        'request_id': '1-2-3-4-5',
- 'request_method': 'PUT',
- 'request_status': 'start',
- 'request_url.path': '/logging_failure'}
+    assert eval(caplog.messages[0]) == {
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "PUT",
+        "request_status": "start",
+        "request_url.path": "/logging_failure",
+    }
     end_message = eval(caplog.messages[1])
-    end_message.pop('error.traceback')
-    assert end_message == {'error.class': 'Exception',
- 'error.msg': 'Error message',
- 'request.data': b'',
- 'request_headers.accept': '*/*',
- 'request_headers.accept-encoding': 'gzip, deflate',
- 'request_headers.connection': 'keep-alive',
- 'request_headers.content-length': '0',
- 'request_headers.host': 'testserver',
- 'request_headers.user-agent': 'testclient',
-                           'request_id': '1-2-3-4-5',
- 'request_method': 'PUT',
- 'request_status': 'error',
- 'request_url.path': '/logging_failure'}
+    end_message.pop("error.traceback")
+    assert end_message == {
+        "error.class": "Exception",
+        "error.msg": "Error message",
+        "request.data": b"",
+        "request_headers.accept": "*/*",
+        "request_headers.accept-encoding": "gzip, deflate",
+        "request_headers.connection": "keep-alive",
+        "request_headers.content-length": "0",
+        "request_headers.host": "testserver",
+        "request_headers.user-agent": "testclient",
+        "request_id": "1-2-3-4-5",
+        "request_method": "PUT",
+        "request_status": "error",
+        "request_url.path": "/logging_failure",
+    }
 
 
 def test_skip_log_get_request(client, caplog):
