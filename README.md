@@ -9,11 +9,18 @@
 <a href="https://pypi.org/project/layab/"><img alt="Number of downloads" src="https://img.shields.io/pypi/dm/layab"></a>
 </p>
 
+> This is an alpha version for the version 2 of layab.
+> Use with caution as it might still change.
+
 Layab stands for `Wonderful` in Somali and is also a shortcut for `Layabout` (aren't we all lazy).
 
-This package provides helper functions on top of [Starlette](https://www.starlette.io) to create standardized REST API.
+This package provides helper functions on top of [Starlette](https://www.starlette.io).
 
-If you were using layab 1.* (based on Flask-RestPlus), please refer to the [Migration guide](#migration-guide).
+If you were using layab 1.* (based on [Flask-RestPlus](https://github.com/noirbizarre/flask-restplus), a project that is now dead and will not be compatible starting with Python 3.9), please refer to the [Migration guide](#migration-guide).
+
+We learned the heard way not to use a full featured framework such as Flask-RestPlus, this is why, starting with layab 2, focus will be on modularity,
+
+However, if you still want to use an all-in-one framework, you can still use layab 2 with any of the Starlette based framework that are currently surrounded with hype such as FastAPI or Responder.
 
 ## Available features
 
@@ -115,7 +122,8 @@ spec = apispec_starlette.add_swagger_json_endpoint(
         "x-server-environment": layab.get_environment(),
     }
 )
-# TODO Add swagger-ui endpoint on /
+# You will however lose the Swagger-ui that was available on / (root endpoint)
+# We advise to install it on your Docker image first and then serve the directory as "/" as the last declared route.
 ```
 
 ### Monitoring endpoints
@@ -137,6 +145,8 @@ layab.add_monitoring_namespace(api, health_details)
 Layab 2.*
 
 ```python
+import os.path
+
 from starlette.applications import Starlette
 from healthpy.starlette import add_consul_health_endpoint
 from keepachangelog.starlette import add_changelog_endpoint
@@ -148,8 +158,12 @@ def health_check():
 
 
 add_consul_health_endpoint(app, health_check)
-add_changelog_endpoint(app, "../CHANGELOG.md")  # You now have to set the path to the changelog yourself
+# You now have to set the path to the changelog yourself
+changelog_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "CHANGELOG.md")
+add_changelog_endpoint(app, changelog_path)
 ```
+
+You can now add only one of the two initially provided endpoints (in case you don't have or want to expose your changes).
 
 Refer to [healthpy](https://pypi.org/project/healthpy/) documentation for more information on what is possible to check API health.
 
