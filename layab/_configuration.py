@@ -23,7 +23,9 @@ def load(server_file_path: str, logging_loader=yaml.FullLoader) -> dict:
     return load_configuration(configuration_folder)
 
 
-def load_logging_configuration(configuration_folder: str, loader=yaml.FullLoader) -> str:
+def load_logging_configuration(
+    configuration_folder: str, loader=yaml.FullLoader
+) -> str:
     """
     Load logging configuration according to SERVER_ENVIRONMENT environment variable.
     If file is not found, then logging will be performed as INFO into stdout.

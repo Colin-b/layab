@@ -35,21 +35,19 @@ setup(
     keywords=["flask"],
     packages=find_packages(exclude=["tests*"]),
     install_requires=[
-        # Used to manage endpoints and swagger
-        "flask-restplus==0.13.*",
+        # Used to manage endpoints
+        "starlette==0.13.*",
         # Used to parse configurations
         "PyYAML==5.*",
-        # Cross Origin handling
-        "flask_cors==3.*",
-        # Used to gz compress http output
-        "flask_compress==1.*",
     ],
     extras_require={
         "testing": [
-            # Used to manage testing of a Flask application
-            "pytest-flask==0.15.*",
+            # Used to manage testing of a Starlette application
+            "requests==2.*",
             # Used to check coverage
             "pytest-cov==2.*",
+            # Used to test Proxy Middleware
+            "uvicorn==0.11.*",
         ],
     },
     python_requires=">=3.6",
