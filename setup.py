@@ -32,23 +32,20 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Topic :: Software Development :: Build Tools",
     ],
-    keywords=["flask"],
+    keywords=["api", "starlette", "configuration", "proxyfix"],
     packages=find_packages(exclude=["tests*"]),
     install_requires=[
-        # Used to manage endpoints
-        "starlette==0.13.*",
         # Used to parse configurations
-        "PyYAML==5.*",
+        "PyYAML==5.*"
     ],
     extras_require={
         "testing": [
             # Used to manage testing of a Starlette application
+            "starlette==0.13.*",
             "requests==2.*",
             # Used to check coverage
             "pytest-cov==2.*",
-            # Used to test Proxy Middleware
-            "uvicorn==0.11.*",
-        ],
+        ]
     },
     python_requires=">=3.6",
     project_urls={

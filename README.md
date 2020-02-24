@@ -9,14 +9,11 @@
 <a href="https://pypi.org/project/layab/"><img alt="Number of downloads" src="https://img.shields.io/pypi/dm/layab"></a>
 </p>
 
-> This is an alpha version for the version 2 of layab.
-> Use with caution as it might still change.
-
 Layab stands for `Wonderful` in Somali and is also a shortcut for `Layabout` (aren't we all lazy).
 
-This package provides helper functions on top of [Starlette](https://www.starlette.io).
+This package provides functions and classes that can be used to facilitate the creation of APIs.
 
-If you were using layab 1.* (based on [Flask-RestPlus](https://github.com/noirbizarre/flask-restplus), a project that is now dead and will not be compatible starting with Python 3.9), please refer to the [Migration guide](#migration-guide).
+If you were using layab 1.* (based on [Flask-RestPlus](https://github.com/noirbizarre/flask-restplus), a project that is now dead and will not be compatible starting with Python 3.9), please refer to the [Migration guide](#migration-guide) as layab now advocate the use of [Starlette](https://www.starlette.io).
 
 We learned the heard way not to use a full featured framework such as Flask-RestPlus, this is why, starting with layab 2, focus will be on modularity,
 
@@ -30,19 +27,19 @@ However, if you still want to use an all-in-one framework, you can still use lay
 
 ### Middleware
 
-You can get a bunch of already created [Starlette middleware](https://www.starlette.io/middleware/) thanks to `layab.middleware` function.
+You can get a bunch of already created [Starlette middleware](https://www.starlette.io/middleware/) thanks to `layab.starlette.middleware` function.
 
 ```python
 from starlette.applications import Starlette
-import layab
+from layab.starlette import middleware
 
-app = Starlette(middleware=layab.middleware())
+app = Starlette(middleware=middleware())
 ```
 
 By default you will have the following [middleware](https://www.starlette.io/middleware/):
  * LoggingMiddleware: Log requests upon reception and return (failure or success).
  * CORSMiddleware: Allow cross origin requests.
- * ProxyHeadersMiddleware (requires [uvicorn](https://github.com/encode/uvicorn/blob/master/uvicorn/middleware/proxy_headers.py)): Handle requests passing by a reverse proxy.
+ * ProxyHeadersMiddleware: Handle requests passing by a reverse proxy.
 
 ### Configuration
 
@@ -72,14 +69,14 @@ Default [responses](https://www.starlette.io/responses/) are available to return
 #### Location response
 ```python
 from starlette.applications import Starlette
-import layab
+from layab.starlette import LocationResponse
 
 app = Starlette()
 
 @app.route("/resource", methods=["POST", "PUT"])
 def handle_resource(request):
     resource_id = create_update_resource()  # Implement this endpoint
-    return layab.LocationResponse(request, "/resource/{resource_id}")
+    return LocationResponse(request, "/resource/{resource_id}")
 
 @app.route("/resource/{resource_id}", methods=["GET"])
 def get_resource(request):
@@ -109,10 +106,11 @@ Layab 2.*
 
 ```python
 import layab
+from layab.starlette import middleware
 from starlette.applications import Starlette
 import apispec_starlette
 
-app = Starlette(middleware=layab.middleware())
+app = Starlette(middleware=middleware())
 spec = apispec_starlette.add_swagger_json_endpoint(
     app, 
     title="My API.",
@@ -153,7 +151,7 @@ from keepachangelog.starlette import add_changelog_endpoint
 
 app = Starlette()
 
-def health_check():
+async def health_check():
     pass  # Implement this
 
 
@@ -186,7 +184,7 @@ def endpoint():
 Layab 2.*
 
 ```python
-import layab
+from layab.starlette import LocationResponse
 
 def endpoint(request):
     """
@@ -200,7 +198,7 @@ def endpoint(request):
             schema:
                 type: string
     """
-    return layab.LocationResponse(request, "/this_is_the_location")
+    return LocationResponse(request, "/this_is_the_location")
 ```
 
 ### Updated response
@@ -220,7 +218,7 @@ def endpoint():
 Layab 2.*
 
 ```python
-import layab
+from layab.starlette import LocationResponse
 
 def endpoint(request):
     """
@@ -234,7 +232,7 @@ def endpoint(request):
             schema:
                 type: string
     """
-    return layab.LocationResponse(request, "/this_is_the_location")
+    return LocationResponse(request, "/this_is_the_location")
 ```
 
 ### Deleted response

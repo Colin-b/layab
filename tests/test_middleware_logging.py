@@ -8,13 +8,16 @@ from starlette.middleware import Middleware
 from starlette.responses import PlainTextResponse
 from starlette.testclient import TestClient
 
-import layab._middleware
-from layab._middleware import LoggingMiddleware
+import layab.starlette
 
 
 @pytest.fixture
 def client():
-    app = Starlette(middleware=[Middleware(LoggingMiddleware, skip_paths=["/skipped"])])
+    app = Starlette(
+        middleware=[
+            Middleware(layab.starlette.LoggingMiddleware, skip_paths=["/skipped"])
+        ]
+    )
 
     @app.route("/logging")
     class Logging(HTTPEndpoint):
@@ -68,7 +71,7 @@ def mock_uuid(monkeypatch):
         def uuid4():
             return "1-2-3-4-5"
 
-    monkeypatch.setattr(layab._middleware, "uuid", UUIDMock)
+    monkeypatch.setattr(layab.starlette, "uuid", UUIDMock)
 
 
 def test_log_get_request_details(client, caplog, mock_uuid):
