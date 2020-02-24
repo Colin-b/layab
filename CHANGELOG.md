@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2020-02-24
+### Changed
+- [Starlette](https://www.starlette.io) is now an optional dependency and everything related to it is now within layab.starlette module.
+
 ## [2.0.0a1] - 2020-02-21
 ### Changed
 - Switch from Flask-RestPlus to [Starlette](https://www.starlette.io).
@@ -25,7 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/Colin-b/layab/compare/v2.0.0a1...HEAD
+[Unreleased]: https://github.com/Colin-b/layab/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/Colin-b/layab/compare/v2.0.0a1...v2.0.0
 [2.0.0a1]: https://github.com/Colin-b/layab/compare/v1.5.0...v2.0.0a1
 [1.6.0]: https://github.com/Colin-b/layab/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/Colin-b/layab/compare/v1.4.0...v1.5.0

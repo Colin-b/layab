@@ -5,5 +5,3 @@ from layab._configuration import (
     load_logging_configuration,
     get_environment,
 )
-from layab._middleware import middleware
-from layab._responses import LocationResponse

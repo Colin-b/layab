@@ -2,7 +2,7 @@ import pytest
 from starlette.applications import Starlette
 from starlette.testclient import TestClient
 
-import layab
+import layab.starlette
 
 
 @pytest.fixture
@@ -11,7 +11,7 @@ def client():
 
     @app.route("/standard_responses", methods=["POST"])
     def post(request):
-        return layab.LocationResponse(request, "/standard_responses?id=42")
+        return layab.starlette.LocationResponse(request, "/standard_responses?id=42")
 
     return TestClient(app)
 
