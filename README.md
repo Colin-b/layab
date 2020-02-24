@@ -15,9 +15,25 @@ This package provides functions and classes that can be used to facilitate the c
 
 If you were using layab 1.* (based on [Flask-RestPlus](https://github.com/noirbizarre/flask-restplus), a project that is now dead and will not be compatible starting with Python 3.9), please refer to the [Migration guide](#migration-guide) as layab now advocate the use of [Starlette](https://www.starlette.io).
 
-We learned the heard way not to use a full featured framework such as Flask-RestPlus, this is why, starting with layab 2, focus will be on modularity,
+Why didn't you switched from [Flask-RestPlus](https://github.com/noirbizarre/flask-restplus) to another [Starlette](https://www.starlette.io) based all-in-one framework (such as FastAPI or Responder)?
 
-However, if you still want to use an all-in-one framework, you can still use layab 2 with any of the Starlette based framework that are currently surrounded with hype such as FastAPI or Responder.
+> Modularity is a key principle in software development. However the use of such framework prevent such development.
+>
+> An all-in-one framework is more likely to requires hack to fit your usage.
+>
+> An all-in-one framework is more likely to have a slower development and release pace.
+> 
+> By using layab 2, you can still use an all-in-one framework, but you also can chose what and if you want to:
+> 
+> * Generate an OpenAPI definition.
+> 
+> * Embed Swagger-UI.
+> 
+> * Validate data.
+> 
+> * Serialize / Deserialize data.
+> 
+> * ...
 
 ## Available features
 
@@ -44,6 +60,14 @@ By default you will have the following [middleware](https://www.starlette.io/mid
 ### Configuration
 
 API and logging configuration should be stored in YAML format.
+
+Configuration is expected to be stored inside a `configuration` folder located on the parent folder of the provided file path.
+
+API Configuration is expected to follow the "configuration_{env}.yml" naming where env is the value of the SERVER_ENVIRONMENT environment variable.
+
+If not found, environment will be considered as "default".
+
+Logging configuration is loaded using the same logic and the following naming: "logging_{env}.yml".
 
 ```python
 import layab
