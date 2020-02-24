@@ -1,4 +1,4 @@
-<h2 align="center">Layab: Wonderful REST API</h2>
+<h2 align="center">Layab: Wonderful REST APIs</h2>
 
 <p align="center">
 <a href="https://pypi.org/project/layab/"><img alt="pypi version" src="https://img.shields.io/pypi/v/layab"></a>

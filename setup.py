@@ -15,7 +15,7 @@ setup(
     maintainer="Colin Bounouar",
     maintainer_email="colin.bounouar.dev@gmail.com",
     url="https://colin-b.github.io/layab/",
-    description="Provide helper for REST API related stuff.",
+    description="Wonderful REST APIs.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     download_url="https://pypi.org/project/layab/",
