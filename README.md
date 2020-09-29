@@ -37,11 +37,14 @@ Why didn't you switched from [Flask-RestPlus](https://github.com/noirbizarre/fla
 
 ## Available features
 
-- [Middleware](#middleware)
+- [Starlette](#starlette)
+  - [Middleware](#middleware)
+  - [Responses](#responses)
 - [Configuration](#configuration)
-- [Responses](#responses)
 
-### Middleware
+### Starlette
+
+#### Middleware
 
 You can get a bunch of already created [Starlette middleware](https://www.starlette.io/middleware/) thanks to `layab.starlette.middleware` function.
 
@@ -56,6 +59,27 @@ By default you will have the following [middleware](https://www.starlette.io/mid
  * LoggingMiddleware: Log requests upon reception and return (failure or success).
  * CORSMiddleware: Allow cross origin requests.
  * ProxyHeadersMiddleware: Handle requests passing by a reverse proxy.
+
+#### Responses
+
+Default [responses](https://www.starlette.io/responses/) are available to return standard responses.
+
+##### Location response
+```python
+from starlette.applications import Starlette
+from layab.starlette import LocationResponse
+
+app = Starlette()
+
+@app.route("/resource", methods=["POST", "PUT"])
+def handle_resource(request):
+    resource_id = create_update_resource()  # Implement this endpoint
+    return LocationResponse(request, "/resource/{resource_id}")
+
+@app.route("/resource/{resource_id}", methods=["GET"])
+def get_resource(request):
+    pass  # Implement this endpoint
+```
 
 ### Configuration
 
@@ -84,27 +108,6 @@ import yaml
 
 # Load logging and service configuration
 service_configuration = layab.load('path/to/a/file/in/module/folder', logging_loader=yaml.UnsafeLoader)
-```
-
-### Responses
-
-Default [responses](https://www.starlette.io/responses/) are available to return standard responses.
-
-#### Location response
-```python
-from starlette.applications import Starlette
-from layab.starlette import LocationResponse
-
-app = Starlette()
-
-@app.route("/resource", methods=["POST", "PUT"])
-def handle_resource(request):
-    resource_id = create_update_resource()  # Implement this endpoint
-    return LocationResponse(request, "/resource/{resource_id}")
-
-@app.route("/resource/{resource_id}", methods=["GET"])
-def get_resource(request):
-    pass  # Implement this endpoint
 ```
 
 ## Migration guide
