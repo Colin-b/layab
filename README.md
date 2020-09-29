@@ -129,7 +129,27 @@ app, api = layab.create_api(
 )
 ```
 
-Layab 2.*
+Layab 2.* using `flask-restx`
+
+```python
+import flask
+import flask_restx
+import layab
+from layab.flask_restx import enrich_flask, log_requests
+
+app = flask.Flask(__name__)
+enrich_flask(app, compress_mimetypes=["text/csv", "application/json"])
+api = flask_restx.Api(
+    app, 
+    title="My API.",
+    description="My description.",
+    version="1.0.0",  # You now have to set the version yourself
+)
+api.__schema__["info"]["x-server-environment"] = layab.get_environment()
+log_requests(skip_paths=["Health.get"])
+```
+
+Layab 2.* using Starlette
 
 ```python
 import layab
@@ -167,7 +187,30 @@ def health_details():
 layab.add_monitoring_namespace(api, health_details)
 ```
 
-Layab 2.*
+Layab 2.* using `flask-restx`
+
+```python
+import os.path
+
+from healthpy.flask_restx import add_consul_health_endpoint
+from keepachangelog.flask_restx import add_changelog_endpoint
+
+api = None
+
+async def health_check():
+    pass  # Implement this
+
+
+namespace = api.namespace(
+    "Monitoring", path="/", description="Monitoring operations"
+)
+add_consul_health_endpoint(namespace, health_check)
+# You now have to set the path to the changelog yourself
+changelog_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "CHANGELOG.md")
+add_changelog_endpoint(namespace, changelog_path)
+```
+
+Layab 2.* using Starlette
 
 ```python
 import os.path
@@ -208,7 +251,7 @@ def endpoint():
     return layab.created_response("/this_is_the_location")
 ```
 
-Layab 2.*
+Layab 2.* using Starlette
 
 ```python
 from layab.starlette import LocationResponse
@@ -242,7 +285,7 @@ def endpoint():
     return layab.updated_response("/this_is_the_location")
 ```
 
-Layab 2.*
+Layab 2.* using Starlette
 
 ```python
 from layab.starlette import LocationResponse
@@ -276,7 +319,7 @@ def endpoint():
     return layab.deleted_response
 ```
 
-Layab 2.*
+Layab 2.* using Starlette
 
 ```python
 from starlette.responses import Response

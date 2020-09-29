@@ -43,6 +43,8 @@ setup(
             # Used to manage testing of a Starlette application
             "starlette==0.13.*",
             "requests==2.*",
+            # Used to manage testing of a Flask-RestX api
+            "flask-restx==0.2.*",
             # Used to check coverage
             "pytest-cov==2.*",
         ]
