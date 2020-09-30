@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Add support for `flask-restx` framework.
+
 ### Changed
 - Update [`black`](https://pypi.org/project/black/) version from `master` to `20.8b1`.
 

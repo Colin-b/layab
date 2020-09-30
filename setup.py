@@ -32,7 +32,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Topic :: Software Development :: Build Tools",
     ],
-    keywords=["api", "starlette", "configuration", "proxyfix"],
+    keywords=["api", "starlette", "flask", "flask-restx", "configuration", "proxyfix"],
     packages=find_packages(exclude=["tests*"]),
     install_requires=[
         # Used to parse configurations
@@ -43,6 +43,10 @@ setup(
             # Used to manage testing of a Starlette application
             "starlette==0.13.*",
             "requests==2.*",
+            # Used to manage testing of a Flask-RestX api
+            "flask-restx==0.2.*",
+            "flask-cors==3.*",
+            "flask-compress==1.*",
             # Used to check coverage
             "pytest-cov==2.*",
         ]
