@@ -8,10 +8,23 @@ from urllib.parse import urlparse
 
 import flask
 import flask_restx
+import werkzeug
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 logger = logging.getLogger(__name__)
+
+
+class Api(flask_restx.Api):
+    def __init__(self, *args, **kwargs):
+        self.extra_info = kwargs.pop("info", {})
+        super().__init__(*args, **kwargs)
+
+    @werkzeug.utils.cached_property
+    def __schema__(self):
+        schema = super().__schema__
+        schema.setdefault("info", {}).update(self.extra_info)
+        return schema
 
 
 def enrich_flask(

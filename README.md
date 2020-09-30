@@ -133,19 +133,18 @@ Layab 2.* using `flask-restx`
 
 ```python
 import flask
-import flask_restx
 import layab
-from layab.flask_restx import enrich_flask, log_requests
+from layab.flask_restx import enrich_flask, log_requests, Api
 
 app = flask.Flask(__name__)
 enrich_flask(app, compress_mimetypes=["text/csv", "application/json"])
-api = flask_restx.Api(
+api = Api(
     app, 
     title="My API.",
     description="My description.",
     version="1.0.0",  # You now have to set the version yourself
+    info={"x-server-environment": layab.get_environment()}
 )
-api.__schema__["info"]["x-server-environment"] = layab.get_environment()
 log_requests(skip_paths=["/health"])
 ```
 
