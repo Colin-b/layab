@@ -37,11 +37,14 @@ Why didn't you switched from [Flask-RestPlus](https://github.com/noirbizarre/fla
 
 ## Available features
 
-- [Middleware](#middleware)
+- [Starlette](#starlette)
+  - [Middleware](#middleware)
+  - [Responses](#responses)
 - [Configuration](#configuration)
-- [Responses](#responses)
 
-### Middleware
+### Starlette
+
+#### Middleware
 
 You can get a bunch of already created [Starlette middleware](https://www.starlette.io/middleware/) thanks to `layab.starlette.middleware` function.
 
@@ -56,6 +59,27 @@ By default you will have the following [middleware](https://www.starlette.io/mid
  * LoggingMiddleware: Log requests upon reception and return (failure or success).
  * CORSMiddleware: Allow cross origin requests.
  * ProxyHeadersMiddleware: Handle requests passing by a reverse proxy.
+
+#### Responses
+
+Default [responses](https://www.starlette.io/responses/) are available to return standard responses.
+
+##### Location response
+```python
+from starlette.applications import Starlette
+from layab.starlette import LocationResponse
+
+app = Starlette()
+
+@app.route("/resource", methods=["POST", "PUT"])
+def handle_resource(request):
+    resource_id = create_update_resource()  # Implement this endpoint
+    return LocationResponse(request, "/resource/{resource_id}")
+
+@app.route("/resource/{resource_id}", methods=["GET"])
+def get_resource(request):
+    pass  # Implement this endpoint
+```
 
 ### Configuration
 
@@ -86,27 +110,6 @@ import yaml
 service_configuration = layab.load('path/to/a/file/in/module/folder', logging_loader=yaml.UnsafeLoader)
 ```
 
-### Responses
-
-Default [responses](https://www.starlette.io/responses/) are available to return standard responses.
-
-#### Location response
-```python
-from starlette.applications import Starlette
-from layab.starlette import LocationResponse
-
-app = Starlette()
-
-@app.route("/resource", methods=["POST", "PUT"])
-def handle_resource(request):
-    resource_id = create_update_resource()  # Implement this endpoint
-    return LocationResponse(request, "/resource/{resource_id}")
-
-@app.route("/resource/{resource_id}", methods=["GET"])
-def get_resource(request):
-    pass  # Implement this endpoint
-```
-
 ## Migration guide
 
 If an information on something that was previously existing is missing, please open an issue.
@@ -126,7 +129,26 @@ app, api = layab.create_api(
 )
 ```
 
-Layab 2.*
+Layab 2.* using `flask-restx`
+
+```python
+import flask
+import layab
+from layab.flask_restx import enrich_flask, log_requests, Api
+
+app = flask.Flask(__name__)
+enrich_flask(app, compress_mimetypes=["text/csv", "application/json"])
+api = Api(
+    app, 
+    title="My API.",
+    description="My description.",
+    version="1.0.0",  # You now have to set the version yourself
+    info={"x-server-environment": layab.get_environment()}
+)
+log_requests(skip_paths=["/health"])
+```
+
+Layab 2.* using Starlette
 
 ```python
 import layab
@@ -164,7 +186,30 @@ def health_details():
 layab.add_monitoring_namespace(api, health_details)
 ```
 
-Layab 2.*
+Layab 2.* using `flask-restx`
+
+```python
+import os.path
+
+from healthpy.flask_restx import add_consul_health_endpoint
+from keepachangelog.flask_restx import add_changelog_endpoint
+
+api = None
+
+async def health_check():
+    pass  # Implement this
+
+
+namespace = api.namespace(
+    "Monitoring", path="/", description="Monitoring operations"
+)
+add_consul_health_endpoint(namespace, health_check)
+# You now have to set the path to the changelog yourself
+changelog_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "CHANGELOG.md")
+add_changelog_endpoint(namespace, changelog_path)
+```
+
+Layab 2.* using Starlette
 
 ```python
 import os.path
@@ -205,7 +250,20 @@ def endpoint():
     return layab.created_response("/this_is_the_location")
 ```
 
-Layab 2.*
+Layab 2.* using `flask-restx`
+
+```python
+import flask_restx
+from layab.flask_restx import location_response
+
+api = None
+
+@api.response(201, "Resource created", flask_restx.fields.String, headers={"location": "Resource location."})
+def endpoint():
+    return location_response("/this_is_the_location")
+```
+
+Layab 2.* using Starlette
 
 ```python
 from layab.starlette import LocationResponse
@@ -239,7 +297,20 @@ def endpoint():
     return layab.updated_response("/this_is_the_location")
 ```
 
-Layab 2.*
+Layab 2.* using `flask-restx`
+
+```python
+import flask_restx
+from layab.flask_restx import location_response
+
+api = None
+
+@api.response(201, "Resource updated", flask_restx.fields.String, headers={"location": "Resource location."})
+def endpoint():
+    return location_response("/this_is_the_location")
+```
+
+Layab 2.* using Starlette
 
 ```python
 from layab.starlette import LocationResponse
@@ -273,7 +344,19 @@ def endpoint():
     return layab.deleted_response
 ```
 
-Layab 2.*
+Layab 2.* using `flask-restx`
+
+```python
+import flask
+
+api = None
+
+@api.response(204, "Resource deleted")
+def endpoint():
+    return flask.Response(b"", status=204)
+```
+
+Layab 2.* using Starlette
 
 ```python
 from starlette.responses import Response
