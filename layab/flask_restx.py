@@ -47,7 +47,8 @@ class _Statistics:
             if original_request_id
             else str(uuid.uuid4())
         )
-        # TODO Store the request ID so that it can be accessed to use in application logs
+        # Store the request ID so that it can be accessed to use in application logs
+        flask.g.request_id = request_id
         self.stats = {
             "request_url.path": request.path,
             "request_method": request.method,
