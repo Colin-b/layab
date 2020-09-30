@@ -146,7 +146,7 @@ api = flask_restx.Api(
     version="1.0.0",  # You now have to set the version yourself
 )
 api.__schema__["info"]["x-server-environment"] = layab.get_environment()
-log_requests(skip_paths=["Health.get"])
+log_requests(skip_paths=["/health"])
 ```
 
 Layab 2.* using Starlette
@@ -251,6 +251,19 @@ def endpoint():
     return layab.created_response("/this_is_the_location")
 ```
 
+Layab 2.* using `flask-restx`
+
+```python
+import flask_restx
+from layab.flask_restx import location_response
+
+api = None
+
+@api.response(201, "Resource created", flask_restx.fields.String, headers={"location": "Resource location."})
+def endpoint():
+    return location_response("/this_is_the_location")
+```
+
 Layab 2.* using Starlette
 
 ```python
@@ -285,6 +298,19 @@ def endpoint():
     return layab.updated_response("/this_is_the_location")
 ```
 
+Layab 2.* using `flask-restx`
+
+```python
+import flask_restx
+from layab.flask_restx import location_response
+
+api = None
+
+@api.response(201, "Resource updated", flask_restx.fields.String, headers={"location": "Resource location."})
+def endpoint():
+    return location_response("/this_is_the_location")
+```
+
 Layab 2.* using Starlette
 
 ```python
@@ -317,6 +343,18 @@ api = None
 @api.response(*layab.deleted_response_doc)
 def endpoint():
     return layab.deleted_response
+```
+
+Layab 2.* using `flask-restx`
+
+```python
+import flask
+
+api = None
+
+@api.response(204, "Resource deleted")
+def endpoint():
+    return flask.Response(b"", status=204)
 ```
 
 Layab 2.* using Starlette
