@@ -203,7 +203,8 @@ async def health_check():
 namespace = api.namespace(
     "Monitoring", path="/", description="Monitoring operations"
 )
-add_consul_health_endpoint(namespace, health_check)
+# You now have to set the release_id yourself
+add_consul_health_endpoint(namespace, health_check, release_id="1.0.0")
 # You now have to set the path to the changelog yourself
 changelog_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", "CHANGELOG.md")
 add_changelog_endpoint(namespace, changelog_path)
