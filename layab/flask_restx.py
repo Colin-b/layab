@@ -1,3 +1,4 @@
+import copy
 import logging
 import uuid
 from typing import List, Any
@@ -53,59 +54,42 @@ def enrich_flask(
 
 class _Statistics:
     def __init__(self, request: flask.Request):
-        self.request = request
-        original_request_id = request.headers.get("X-Request-Id")
-        request_id = (
-            f"{original_request_id},{uuid.uuid4()}"
-            if original_request_id
-            else str(uuid.uuid4())
-        )
+        request_id = request.headers.get("X-Request-Id", str(uuid.uuid4()))
         # Store the request ID so that it can be accessed to use in application logs
         flask.g.request_id = request_id
+        args = {arg: [] for arg in request.args}
+        for arg, value in request.args.items(multi=True):
+            args[arg].append(value)
+
         self.stats = {
-            "request_url.path": request.path,
-            "request_method": request.method,
-            "request_id": request_id,
+            "request": {
+                "url.path": request.path,
+                "method": request.method,
+                "id": request_id,
+                "args": args,
+                "headers": dict(request.headers),
+                "status": "start",
+            },
         }
-        self.stats.update(
-            {
-                f"request_args.{param_name}": (
-                    param_value[0] if len(param_value) == 1 else param_value
-                )
-                for param_name, param_value in request.args.items()
-            }
-        )
-        self.stats.update(
-            {
-                f"request_headers.{header_name}": header_value
-                for header_name, header_value in request.headers.items()
-            }
-        )
-        logger.info({**self.stats, "request_status": "start"})
+        logger.info(copy.deepcopy(self.stats))
         self.start = time.perf_counter()
 
-    def success(self, response: Any):
-        self.stats.update(
-            {
-                "request_processing_time": time.perf_counter() - self.start,
-                "request_status": "success",
-                "request_status_code": response.status_code
-                if isinstance(response, flask.Response)
-                else 200,
-            }
+    def response(self, response: Any):
+        self.stats["request"]["processing_time"] = time.perf_counter() - self.start
+        self.stats["request"]["status"] = "end"
+        self.stats["request"]["status_code"] = (
+            response.status_code if isinstance(response, flask.Response) else 200
         )
         logger.info(self.stats)
 
     def exception_occurred(self, exception: Exception):
-        self.stats.update(
-            {
-                "request.data": self.request.data,
-                "error.class": type(exception).__name__,
-                "error.msg": str(exception),
-                "error.traceback": traceback.format_exc(),
-                "request_status": "error",
-            }
-        )
+        self.stats["request"]["processing_time"] = time.perf_counter() - self.start
+        self.stats["request"]["status"] = "error"
+        self.stats["error"] = {
+            "class": type(exception).__name__,
+            "msg": str(exception),
+            "traceback": traceback.format_exc(),
+        }
         logger.critical(self.stats)
 
 
@@ -121,7 +105,7 @@ def log_requests(skip_paths: List[str] = None):
             statistics = _Statistics(flask.request)
             try:
                 ret = func(*func_args, **func_kwargs)
-                statistics.success(ret)
+                statistics.response(ret)
                 return ret
             except Exception as e:
                 statistics.exception_occurred(e)

@@ -73,28 +73,44 @@ def mock_uuid(monkeypatch):
 
 def test_log_get_request_details(client, caplog, mock_uuid):
     caplog.set_level(logging.INFO)
-    response = client.get("/logging")
+    response = client.get("/logging?param1=1&param2=test&param1=toto")
     assert response.status_code == 200
     assert response.data == b""
     assert len(caplog.messages) == 2
     assert eval(caplog.messages[0]) == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "GET",
-        "request_status": "start",
-        "request_url.path": "/logging",
+        "request": {
+            "args": {
+                "param1": ["1", "toto"],
+                "param2": ["test"],
+            },
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "GET",
+            "status": "start",
+            "url.path": "/logging",
+        },
     }
     end_message = eval(caplog.messages[1])
-    end_message.pop("request_processing_time")
+    end_message["request"].pop("processing_time")
     assert end_message == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "GET",
-        "request_status": "success",
-        "request_status_code": 200,
-        "request_url.path": "/logging",
+        "request": {
+            "args": {
+                "param1": ["1", "toto"],
+                "param2": ["test"],
+            },
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "GET",
+            "status": "end",
+            "status_code": 200,
+            "url.path": "/logging",
+        },
     }
 
 
@@ -105,23 +121,33 @@ def test_log_delete_request_details(client, caplog, mock_uuid):
     assert response.data == b""
     assert len(caplog.messages) == 2
     assert eval(caplog.messages[0]) == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "DELETE",
-        "request_status": "start",
-        "request_url.path": "/logging",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "DELETE",
+            "status": "start",
+            "url.path": "/logging",
+        },
     }
     end_message = eval(caplog.messages[1])
-    end_message.pop("request_processing_time")
+    end_message["request"].pop("processing_time")
     assert end_message == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "DELETE",
-        "request_status": "success",
-        "request_status_code": 200,
-        "request_url.path": "/logging",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "DELETE",
+            "status": "end",
+            "status_code": 200,
+            "url.path": "/logging",
+        },
     }
 
 
@@ -132,23 +158,33 @@ def test_log_post_request_details(client, caplog, mock_uuid):
     assert response.data == b""
     assert len(caplog.messages) == 2
     assert eval(caplog.messages[0]) == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "POST",
-        "request_status": "start",
-        "request_url.path": "/logging",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "POST",
+            "status": "start",
+            "url.path": "/logging",
+        },
     }
     end_message = eval(caplog.messages[1])
-    end_message.pop("request_processing_time")
+    end_message["request"].pop("processing_time")
     assert end_message == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "POST",
-        "request_status": "success",
-        "request_status_code": 200,
-        "request_url.path": "/logging",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "POST",
+            "status": "end",
+            "status_code": 200,
+            "url.path": "/logging",
+        },
     }
 
 
@@ -159,23 +195,33 @@ def test_log_put_request_details(client, caplog, mock_uuid):
     assert response.data == b""
     assert len(caplog.messages) == 2
     assert eval(caplog.messages[0]) == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "PUT",
-        "request_status": "start",
-        "request_url.path": "/logging",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "PUT",
+            "status": "start",
+            "url.path": "/logging",
+        },
     }
     end_message = eval(caplog.messages[1])
-    end_message.pop("request_processing_time")
+    end_message["request"].pop("processing_time")
     assert end_message == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "PUT",
-        "request_status": "success",
-        "request_status_code": 200,
-        "request_url.path": "/logging",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "PUT",
+            "status": "end",
+            "status_code": 200,
+            "url.path": "/logging",
+        },
     }
 
 
@@ -186,25 +232,37 @@ def test_log_get_request_details_on_failure(client, caplog, mock_uuid):
     assert response.data == b'{"message": "Internal Server Error"}\n'
     assert len(caplog.messages) == 3
     assert eval(caplog.messages[0]) == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "GET",
-        "request_status": "start",
-        "request_url.path": "/logging_failure",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "GET",
+            "status": "start",
+            "url.path": "/logging_failure",
+        },
     }
     end_message = eval(caplog.messages[1])
-    end_message.pop("error.traceback")
+    end_message["request"].pop("processing_time")
+    end_message["error"].pop("traceback")
     assert end_message == {
-        "error.class": "Exception",
-        "error.msg": "Error message",
-        "request.data": b"",
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "GET",
-        "request_status": "error",
-        "request_url.path": "/logging_failure",
+        "error": {
+            "class": "Exception",
+            "msg": "Error message",
+        },
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "GET",
+            "status": "error",
+            "url.path": "/logging_failure",
+        },
     }
 
 
@@ -215,25 +273,37 @@ def test_log_delete_request_details_on_failure(client, caplog, mock_uuid):
     assert response.data == b'{"message": "Internal Server Error"}\n'
     assert len(caplog.messages) == 3
     assert eval(caplog.messages[0]) == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "DELETE",
-        "request_status": "start",
-        "request_url.path": "/logging_failure",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "DELETE",
+            "status": "start",
+            "url.path": "/logging_failure",
+        },
     }
     end_message = eval(caplog.messages[1])
-    end_message.pop("error.traceback")
+    end_message["request"].pop("processing_time")
+    end_message["error"].pop("traceback")
     assert end_message == {
-        "error.class": "Exception",
-        "error.msg": "Error message",
-        "request.data": b"",
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "DELETE",
-        "request_status": "error",
-        "request_url.path": "/logging_failure",
+        "error": {
+            "class": "Exception",
+            "msg": "Error message",
+        },
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "DELETE",
+            "status": "error",
+            "url.path": "/logging_failure",
+        },
     }
 
 
@@ -244,25 +314,37 @@ def test_log_post_request_details_on_failure(client, caplog, mock_uuid):
     assert response.data == b'{"message": "Internal Server Error"}\n'
     assert len(caplog.messages) == 3
     assert eval(caplog.messages[0]) == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "POST",
-        "request_status": "start",
-        "request_url.path": "/logging_failure",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "POST",
+            "status": "start",
+            "url.path": "/logging_failure",
+        },
     }
     end_message = eval(caplog.messages[1])
-    end_message.pop("error.traceback")
+    end_message["request"].pop("processing_time")
+    end_message["error"].pop("traceback")
     assert end_message == {
-        "error.class": "Exception",
-        "error.msg": "Error message",
-        "request.data": b"",
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "POST",
-        "request_status": "error",
-        "request_url.path": "/logging_failure",
+        "error": {
+            "class": "Exception",
+            "msg": "Error message",
+        },
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "POST",
+            "status": "error",
+            "url.path": "/logging_failure",
+        },
     }
 
 
@@ -273,25 +355,37 @@ def test_log_put_request_details_on_failure(client, caplog, mock_uuid):
     assert response.data == b'{"message": "Internal Server Error"}\n'
     assert len(caplog.messages) == 3
     assert eval(caplog.messages[0]) == {
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "PUT",
-        "request_status": "start",
-        "request_url.path": "/logging_failure",
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "PUT",
+            "status": "start",
+            "url.path": "/logging_failure",
+        },
     }
     end_message = eval(caplog.messages[1])
-    end_message.pop("error.traceback")
+    end_message["request"].pop("processing_time")
+    end_message["error"].pop("traceback")
     assert end_message == {
-        "error.class": "Exception",
-        "error.msg": "Error message",
-        "request.data": b"",
-        "request_headers.Host": "localhost",
-        "request_headers.User-Agent": "werkzeug/1.0.1",
-        "request_id": "1-2-3-4-5",
-        "request_method": "PUT",
-        "request_status": "error",
-        "request_url.path": "/logging_failure",
+        "error": {
+            "class": "Exception",
+            "msg": "Error message",
+        },
+        "request": {
+            "args": {},
+            "headers": {
+                "Host": "localhost",
+                "User-Agent": "werkzeug/1.0.1",
+            },
+            "id": "1-2-3-4-5",
+            "method": "PUT",
+            "status": "error",
+            "url.path": "/logging_failure",
+        },
     }
 
 

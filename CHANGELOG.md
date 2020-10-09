@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2020-10-09
+### Added
+- flask_restx request logging now log processing_time in case of failure as well.
+- Explicit support for python 3.9
+
+### Changed
+- Only store one request id per query.
+- flask_restx request logging now log request details as a dictionary linked to request key.
+- flask_restx request logging now log request arguments as a dictionary linked to request.args key.
+- flask_restx request logging now log request headers as a dictionary linked to request.headers key.
+- flask_restx request logging now log request error as a dictionary linked to error key.
+- flask_restx request logging now log status as `end` instead of `success` as it might be misleading if app is sending failure response.
+
+### Fixed
+- flask_restx request logging do not log request data in case of exception anymore as it might be too big or bytes could not be supported by the logger.
+- flask_restx request logging now log all params as a list of values, only the first value for each param was logged previously.
+
 ## [2.1.0] - 2020-09-30
 ### Added
 - Add support for `flask-restx` framework.
@@ -36,7 +53,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/Colin-b/layab/compare/v2.1.0...HEAD
+[Unreleased]: https://github.com/Colin-b/layab/compare/v2.2.0...HEAD
+[2.2.0]: https://github.com/Colin-b/layab/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/Colin-b/layab/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/Colin-b/layab/compare/v2.0.0a1...v2.0.0
 [2.0.0a1]: https://github.com/Colin-b/layab/compare/v1.5.0...v2.0.0a1
